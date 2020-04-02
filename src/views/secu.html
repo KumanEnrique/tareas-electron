@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/4.3.1/spacelab/bootstrap.min.css">
+    <title>Add a new product</title>
+</head>
+<body>
+    <form class="p-4" id="form">
+        <div class="form-group">
+            <label for="name">Nombre de producto</label>
+            <input type="text" class="form-group" id="name" autofocus>
+        </div>
+        <div class="form-group">
+            <label for="price">Precio de producto</label>
+            <input type="number" class="form-group" id="price" step="0.01">
+        </div>
+        <div class="form-group">
+            <label for="description">Descripción de producto</label>
+            <input type="text" class="form-group" id="description">
+        </div>
+        <button class="btn btn-primary">enviar</button>
+    </form>
+    <script>
+        const {ipcRenderer} = require("electron")
+        const formu = document.getElementById("form")
+
+        formu.addEventListener("submit",(e)=>{
+            const name = document.getElementById("name").value
+            const price = document.getElementById("price").value
+            const description = document.getElementById("description").value
+
+            const newProduct = {
+                name,
+                price,
+                description
+            }
+            console.log(newProduct)
+            ipcRenderer.send("product:new",newProduct)/* enviar datos a index.js */
+            e.preventDefault()
+        })
+    </script>
+</body>
+</html>
